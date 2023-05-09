@@ -28,8 +28,8 @@ function Invoke-GitHubCopilotWhatTheShell {
     # Create a temporary file to store the output
     $tmpFile = New-TemporaryFile
 
-    # Call the Copilot CLI using node and store the output in the temporary file
-    & "node" "C:\Program Files\nodejs\node_modules\@githubnext\github-copilot-cli\cli.js" what-the-shell $inputString --shellout $tmpFile
+    # Call the Copilot CLI and store the output in the temporary file
+    & github-copilot-cli what-the-shell $inputString --shellout $tmpFile
 
     # Check if the command was successful
     if ($?) {

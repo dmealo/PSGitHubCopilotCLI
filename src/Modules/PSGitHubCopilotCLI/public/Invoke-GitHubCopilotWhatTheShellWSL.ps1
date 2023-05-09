@@ -1,31 +1,33 @@
 <#
 .SYNOPSIS
-    Invokes the GitHub Copilot CLI's gh-assist function.
+    Invokes the GitHub Copilot CLI's what-the-shell function.
 
 .DESCRIPTION
-    The Invoke-GitHubCopilotGhAssist function runs the gh-assist function from the GitHub Copilot CLI.
+    The Invoke-GitHubCopilotWhatTheShell function runs the what-the-shell function from the GitHub Copilot CLI.
     It takes the user's input, calls the Copilot CLI, and then executes the command returned by the Copilot CLI.
 
 .PARAMETER Query
-    A variable-length argument list representing the user's input for the gh-assist function.
+    A variable-length argument list representing the user's input for the what-the-shell function. The code that is
+    generated should work on PowerShell on Windows (without quotes).
 
 .EXAMPLE
-    Invoke-GitHubCopilotGhAssist create a new repository named "my-new-repo"
+    Invoke-GitHubCopilotWhatTheShell create a new folder called "my-folder"
 #>
-function Invoke-GitHubCopilotGhAssist {
+function Invoke-GitHubCopilotWhatTheShellWsl {
     param(
         [Parameter(Mandatory=$true, ValueFromRemainingArguments=$true)]
         [string[]]$Query
     )
 
     # Join the args to form a single input string
-    $inputString = [string]::Join(" ", $Query)
+    $inputString = [string]::Join(" use wsl to ", $Query)
+    $inputString += " "
 
     # Create a temporary file to store the output
     $tmpFile = New-TemporaryFile
 
     # Call the Copilot CLI and store the output in the temporary file
-    & github-copilot-cli gh-assist $inputString --shellout $tmpFile
+    & github-copilot-cli what-the-shell $inputString --shellout $tmpFile
 
     # Check if the command was successful
     if ($?) {
@@ -35,14 +37,14 @@ function Invoke-GitHubCopilotGhAssist {
     } else {
         Write-Host "Apologies! Extracting command failed"
     }
-    
+
     # Remove the temporary file
     Remove-Item -Path $tmpFile.FullName
 }
 
 # Set the alias for the function
-Set-Alias -Name "gh?" -Value "Invoke-GitHubCopilotGhAssist"
+Set-Alias -Name "wsl?" -Value "Invoke-GitHubCopilotWhatTheShellWsl"
 
 # Export the function and its aliases
-Export-ModuleMember -Function "Invoke-GitHubCopilotGhAssist"
-Export-ModuleMember -Alias "gh?"
+Export-ModuleMember -Function "Invoke-GitHubCopilotWhatTheShellWsl"
+Export-ModuleMember -Alias "wsl?"
