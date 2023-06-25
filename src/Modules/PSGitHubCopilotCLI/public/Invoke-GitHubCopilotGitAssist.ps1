@@ -25,7 +25,7 @@ function Invoke-GitHubCopilotGitAssist {
     $tmpFile = New-TemporaryFile
 
     # Call the Copilot CLI using node and store the output in the temporary file
-    & "node" "C:\Program Files\nodejs\node_modules\@githubnext\github-copilot-cli\cli.js" git-assist $inputString --shellout $tmpFile
+    & github-copilot-cli git-assist $inputString --shellout $tmpFile
 
     # Check if the command was successful
     if ($?) {
