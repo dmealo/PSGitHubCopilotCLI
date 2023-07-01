@@ -19,9 +19,11 @@ function Invoke-GitHubCopilotWhatTheWsl {
         [string[]]$Query
     )
 
+    $operatingSystem = Get-OperatingSystem
+    
     # Join the args to form a single input string
     $inputString = [string]::Join(" use wsl to ", $Query)
-    $inputString += " "
+    $inputString += " in PowerShell on $operatingSystem."
 
     # Create a temporary file to store the output
     $tmpFile = New-TemporaryFile
